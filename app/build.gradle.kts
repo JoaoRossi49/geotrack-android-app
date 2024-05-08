@@ -39,4 +39,6 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
 
     implementation("com.android.volley:volley:1.2.0")
+    implementation("com.google.android.gms:play-services-location:18.0.0")
+
 }
