@@ -1,6 +1,10 @@
 package com.android.geotrack;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +14,10 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
 
+    private EditText userInput;
+    private EditText passwordInput;
+    private Button signInBtn;
+    private TextView result;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,5 +28,16 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        userInput = findViewById(R.id.userInput);
+        passwordInput = findViewById(R.id.passwordInput);
+        signInBtn = findViewById(R.id.signInBtn);
+        result = findViewById(R.id.result);
+
     }
+
+    public void logIn(View view){
+        result.setText("Chamou Login!");
+    }
+
 }
