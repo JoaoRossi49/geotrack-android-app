@@ -1,7 +1,6 @@
 package com.android.geotrack;
 
-import android.content.pm.PackageManager;
-import android.location.Location;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,7 +9,6 @@ import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -20,13 +18,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
 
 import org.json.JSONObject;
 import android.util.Log;
-import android.Manifest;
+
+import android.content.Intent;
+
 
 
 
@@ -72,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
                         String auth = response.getString("authenticated");
                         if(auth == "true"){
                             result.setText("Usuário autenticado com sucesso!");
+                            iniciarLocationActivity();
                         }else{
                             result.setText("Usuário não autenticado!");
                         }
@@ -97,35 +95,13 @@ public class MainActivity extends AppCompatActivity {
         Log.i("BTN", "Apertou botão");
         url = "http://192.168.86.6:8000/api/login/";
         makeApiCall(url);
-        getLocation();
     }
 
-    public void getLocation(){
-        Log.i("COORDENDAS",Manifest.permission.ACCESS_FINE_LOCATION);
-        Log.i("COORDENDAS",Manifest.permission.ACCESS_COARSE_LOCATION);
-        FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        fusedLocationClient.getLastLocation()
-                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        if (location != null) {
-                            double latitude = location.getLatitude();
-                            double longitude = location.getLongitude();
-
-                            Log.i("COORDENADA", String.valueOf(latitude));
-                            Log.i("COORDENADA", String.valueOf(longitude));
-                            coordenadas.setText(String.valueOf(latitude)+" "+String.valueOf(longitude));
-
-                        } else {
-                            Log.e("COORDENADA", "Não foi possível acessar as coordenadas");
-                        }
-                    }
-                });
-
+    public void iniciarLocationActivity() {
+        Intent intent = new Intent(this, LocationActivity.class);
+        startActivity(intent);
     }
+
+
 
 }
